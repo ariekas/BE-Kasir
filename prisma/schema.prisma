@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,3 +7,153 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  KASIR
+  ADMIN
+  PENJAGA_GUDANG
+}
+
+enum Status {
+  ACTIVE
+  INACTIVE
+}
+
+enum StatusTransaction {
+  PENDING
+  CANCEL
+  DONE
+}
+
+model User {
+  id          String @id @default(uuid())
+  username    String @unique
+  role        Role
+  password    String
+  phoneNumber Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  transactions Transaction[]
+}
+
+model Product {
+  id             String  @id @default(uuid())
+  name           String
+  originalPrice  Decimal
+  stock          Int
+  image          String
+  discountPrice  Decimal
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  category   Category  @relation(fields: [categoryId], references: [id])
+  categoryId String
+
+  discount   Discount? @relation(fields: [discountId], references: [id])
+  discountId String?
+
+  barcodes    Barcode[]
+  transactionDetails TransactionDetail[]
+}
+
+model Category {
+  id        String @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  products Product[]
+}
+
+model Discount {
+  id                   String  @id @default(uuid())
+  name                 String
+  discountValue        Decimal
+  startDate            DateTime
+  endDate              DateTime
+  status               Status
+  discountAvailability Int
+
+  products Product[]
+}
+
+
+model Barcode {
+  id        String @id @default(uuid())
+  productId String @unique
+  barcode   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model Member {
+  id                 String  @id @default(uuid())
+  name               String
+  phoneNumber        Int     @unique
+  address           String
+  remainingSub      String
+  status            Status
+  membershipDiscount Decimal
+
+  transactions Transaction[]
+}
+
+model Transaction {
+  id              String @id @default(uuid())
+  transactionDate DateTime
+  totalPrice      Decimal
+  paymentMethod   String
+  status          StatusTransaction
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  userId   String
+  user     User @relation(fields: [userId], references: [id])
+
+  memberId String?
+  member   Member? @relation(fields: [memberId], references: [id])
+
+  transactionDetails TransactionDetail[]
+}
+
+model TransactionDetail {
+  id             String  @id @default(uuid())
+  quantity       Int
+  price          Decimal
+  memberDiscount Decimal
+  totalPrice     Decimal
+
+  transactionId String
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+model SalesReport {
+  id                String @id @default(uuid())
+  reportDate        DateTime
+  totalSales        Decimal
+  totalTransaction  Int
+  totalItemsSold    Decimal
+  createdAt         DateTime @default(now())
+}
+
+model StockReport {
+  id            String @id @default(uuid())
+  reportDate    DateTime
+  stockQuantity Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model ProductReport {
+  id        String @id @default(uuid())
+  reportDate DateTime
+  report     String
+  quantity   Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
