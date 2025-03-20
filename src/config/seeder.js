@@ -9,7 +9,8 @@ async function seed() {
     create: {
       username: 'admin',
       password: hashedPassword,
-      role: 'admin',
+      phoneNumber: 1234567890,
+      role: 'ADMIN',
     },
   });
   console.log('Admin account created:', admin);

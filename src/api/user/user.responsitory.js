@@ -1,40 +1,36 @@
-const userRepository = require('./user-responsitory');
-const bcrypt = require('bcryptjs');
+const prisma = require("../../config/db");
 
-const getUser = async () => {
-    return await userRepository.findAll()
+const create = async (userData) => {
+  return await prisma.user.create({ data: userData });
+};
+
+const findAll = async () => {
+    return await prisma.user.findMany({});
 }
 
-const getUserId = async (userId) => {
-    return await userRepository.findById(userId)
-}
-
-const createUser = async (userData, profilePic) => {
-    const hashPassword = await bcrypt.hash(userData.password, 10)
-
-    const profilePicPath = profilePic ? profilePic.path : null;
-
-    return await userRepository.create({
-        ...userData,
-        password: hashPassword,
-        profilePic: profilePicPath
+const findById = async (userId) => {
+    return await prisma.user.findUnique({
+        where:{id: userId}
     })
 }
 
-const updateRole = async (userId, role) => {
-    return await userRepository.update(userId, role)
-}
+const update = async (userId, role) => {
+  return await prisma.user.update({
+    where: { id: userId },
+    data: { role },
+  });
+};
 
-const deleteUser = async (userId) => {
-    return await userRepository.disable(userId)
-}
-
-
+const disable = async (userId) => {
+  return await prisma.user.delete({
+    where: { id: userId },
+  });
+};
 
 module.exports = {
-    createUser,
-    updateRole,
-    deleteUser,
-    getUser,
-    getUserId
-}
+  create,
+  update,
+  disable,
+  findAll,
+  findById
+};
