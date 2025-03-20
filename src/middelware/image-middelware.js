@@ -4,7 +4,7 @@ const path = require('path');
 // Konfigurasi penyimpanan file
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'image/'); // Folder penyimpanan file
+        cb(null, 'images/'); // Folder penyimpanan file
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);

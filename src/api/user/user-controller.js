@@ -1,10 +1,10 @@
 const userService = require('./user-service');
 
 const createUser = async (req, res) => {
-    const {username, password, role} = req.body
+    const {username, password, role, phoneNumber} = req.body
     const profilePic = req.file;
     try {
-        const user = await userService.createUser({username, password, role}, profilePic)
+        const user = await userService.createUser({username, password, role, phoneNumber}, profilePic)
         res.status(201).json({message: 'User created', data: user})
     } catch (error) {
         res.status(401).json({message: error.message})
@@ -43,6 +43,7 @@ const updateRole = async (req, res) => {
     const {role} = req.body
     try {
         const user = await userService.updateRole(userId, role)
+        console.log(user)
         res.status(201).json({
             message: "User role updated",
             data: user

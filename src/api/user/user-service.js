@@ -14,9 +14,12 @@ const createUser = async (userData, profilePic) => {
 
     const profilePicPath = profilePic ? profilePic.path : null;
 
+    const phoneNumber = parseInt(userData.phoneNumber)
+
     return await userRepository.create({
         ...userData,
         password: hashPassword,
+        phoneNumber: phoneNumber,
         profilePic: profilePicPath
     })
 }
