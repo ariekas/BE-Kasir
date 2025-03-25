@@ -33,7 +33,7 @@ app.get('/discount/:discountId', discountController.getDiscountById)
 app.put('/update/discount/:discountId', discountController.updateDiscount)
 app.put('/update/status/discount/:discountId', discountController.InactiveDiscount)
 
-app.get('/products', productController.getProducts);
+// app.get('/products', productController.getProducts);
 // app.post('/create/product', authMiddelware.verifyToken, authMiddelware.verifyRole('ADMIN'), upload.single('image'), productController.createProduct);
 app.post('/create/product',  upload.single('image'), productController.createProduct);
 
