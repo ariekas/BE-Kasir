@@ -1,6 +1,7 @@
 const productRepository = require("./product-responsitory");
 const prisma = require("../../config/db");
 
+
 const createProduct = async (productData, image) => {
     // Ambil path gambar jika ada
     const product = await productRepository.create(productData, image);
