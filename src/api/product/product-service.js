@@ -8,6 +8,12 @@ const createProduct = async (productData, image) => {
 
     return product;
 };
+
+const updatedProduct = async (productId, productData, image) => {
+    const product = await productRepository.update(productId, productData, image);
+
+    return product;
+}
 const applyDiscount = async (productId, discountId) => {
     // Cari produk terlebih dahulu
     const product = await prisma.product.findUnique({
@@ -55,5 +61,6 @@ const getProducts = async () => {
 module.exports = {
   getProducts,
   createProduct,
-  applyDiscount
+  applyDiscount,
+  updatedProduct
 };
