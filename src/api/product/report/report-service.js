@@ -38,7 +38,19 @@ const updateStock = async (productId, stockQuantity) => {
   return stockReport;
 };
 
-
+const sendReport = async (message) => {
+  try {
+    await axios.post(
+      `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+      {
+        chat_id: TELEGRAM_CHAT_ID,
+        text: message,
+      }
+    );
+  } catch (error) {
+    console.error("Failed to send Telegram message:", error.message);
+  }
+};
 
 const getReportStock = async () => {
   const report = await prisma.stockReport.findMany();
