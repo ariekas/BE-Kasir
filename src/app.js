@@ -7,6 +7,7 @@ const categoryController = require('./api/product/category/category-controller')
 const discountController = require('./api/product/discount/discount-controller')
 const upload = require('./middelware/image-middelware')
 const memberController = require('./api/user/member/member-controller');
+const barcodeController = require('./api/product/barcode/barcode-controller');
 
 const {statusMember} = require('./api/user/member/member-service')
 
@@ -48,6 +49,8 @@ app.delete('/delete/product/:productId', productController.deleteProduct)
 
 app.post('/create/member', memberController.createMember)
 app.get('/members', memberController.getMembers)
+
+app.post('/create/barcode', barcodeController.createBarcode)
 
 
 

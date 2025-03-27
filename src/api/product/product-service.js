@@ -53,7 +53,8 @@ const getProducts = async () => {
     return await prisma.product.findMany({
         include: {
             category: true,
-            discount: true
+            discount: true,
+            barcodes: true
         }
     });
 };
