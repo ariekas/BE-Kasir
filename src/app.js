@@ -8,6 +8,7 @@ const discountController = require('./api/product/discount/discount-controller')
 const upload = require('./middelware/image-middelware')
 const memberController = require('./api/user/member/member-controller');
 const barcodeController = require('./api/product/barcode/barcode-controller');
+const reportController = require('./api/product/report/report-controller');
 
 const {statusMember} = require('./api/user/member/member-service')
 
@@ -51,6 +52,11 @@ app.post('/create/member', memberController.createMember)
 app.get('/members', memberController.getMembers)
 
 app.post('/create/barcode', barcodeController.createBarcode)
+
+app.post('/stock/product', reportController.updateStock)
+app.get('/report/stock', reportController.getReportStock)
+app.post('/create/report/product', reportController.createReportProduct)
+app.get('/report/product', reportController.getReportProduct)
 
 
 

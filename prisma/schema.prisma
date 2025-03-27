@@ -55,6 +55,9 @@ model Product {
 
   barcodes    Barcode[]
   transactionDetails TransactionDetail[]
+   productReport ProductReport[]
+
+  StockReport StockReport[]
 }
 
 model Category {
@@ -147,6 +150,8 @@ model StockReport {
   id            String @id @default(uuid())
   reportDate    DateTime
   stockQuantity Int
+  productId String?
+  product Product? @relation(fields: [productId], references: [id])
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
@@ -156,6 +161,8 @@ model ProductReport {
   reportDate DateTime
   report     String
   quantity   Int
+  productId String
+  product Product @relation(fields: [productId], references: [id])
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
