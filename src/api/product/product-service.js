@@ -58,9 +58,16 @@ const getProducts = async () => {
     });
 };
 
+const deleteProduct = async (productId) => {
+    const deleted = await productRepository.deleteProduct(productId);
+
+    return deleted
+}
+
 module.exports = {
   getProducts,
   createProduct,
   applyDiscount,
-  updatedProduct
+  updatedProduct,
+  deleteProduct
 };

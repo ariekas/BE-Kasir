@@ -4,7 +4,6 @@ const findAll = async () => {
     return await prisma.product.findMany({});
 }
 
-
 const create = async (productData, image) => {
     const imagePath = image ? image.path : null;
 
@@ -44,9 +43,6 @@ const update = async (productData, productId, image) => {
     const existingProduct = await prisma.product.findUnique({
         where:{id: productId}
     })
-    console.log("Product ID:", productId);
-    console.log("Existing Product:", existingProduct);
-
     if (!existingProduct) {
         throw new Error("Product tidak ditemukan");
     }
@@ -78,10 +74,15 @@ const update = async (productData, productId, image) => {
     };
 };
 
-
+const deleteProduct = async (productId) => {
+    return await prisma.product.delete({
+        where: { id: productId}
+    })
+}
 
 module.exports = {
     findAll,
     create,
-    update
+    update,
+    deleteProduct
 }

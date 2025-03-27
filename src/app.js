@@ -38,6 +38,7 @@ app.get('/products', productController.getProducts);
 app.post('/create/product',  upload.single('image'), productController.createProduct);
 app.post('/apply-discount/product/:productId', productController.applyDiscount);
 app.put('/update/product/:productId', productController.updatedProduct)
+app.delete('/delete/product/:productId', productController.deleteProduct)
 
 
 
