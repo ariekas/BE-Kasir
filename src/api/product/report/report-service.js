@@ -57,6 +57,31 @@ const getReportStock = async () => {
   return report;
 };
 
+const createReportProduct = async (productId, quantity, report) => {
+  const product = await prisma.product.findUnique({
+    where: { id: productId },
+  });
+
+  if (!product) {
+    throw new Error("Product not found");
+  }
+
+  const reportproduct = await prisma.productReport.create({
+    data: {
+      reportDate: new Date(),
+      report,
+      quantity,
+      productId,
+    },
+  });
+  return reportproduct;
+};
+
+const getReportProduct = async () => {
+  const report = await prisma.productReport.findMany();
+  return report;
+};
+
 
 
 module.exports = {
