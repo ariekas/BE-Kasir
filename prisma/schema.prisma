@@ -94,9 +94,10 @@ model Member {
   name               String
   phoneNumber        Int     @unique
   address           String
-  remainingSub      String
+  TimeLeft          String
   status            Status
-  membershipDiscount Decimal
+  memberDiscount Decimal
+  createAt DateTime @default(now())
 
   transactions Transaction[]
 }

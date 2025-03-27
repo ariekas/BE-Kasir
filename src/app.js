@@ -6,14 +6,20 @@ const authMiddelware = require('./middelware/auth-middelware');
 const categoryController = require('./api/product/category/category-controller');
 const discountController = require('./api/product/discount/discount-controller')
 const upload = require('./middelware/image-middelware')
+const memberController = require('./api/user/member/member-controller');
+
+const {statusMember} = require('./api/user/member/member-service')
 
 const productController = require('./api/product/product-controller');
 
 const prisma = new PrismaClient();
 const app = express();
 const port = process.env.PORT || 3000;
+setInterval(statusMember, 1000 * 60 * 60)
 
 app.use(express.json());
+
+
 
 
 app.post('/login', authController.login);
@@ -39,6 +45,9 @@ app.post('/create/product',  upload.single('image'), productController.createPro
 app.post('/apply-discount/product/:productId', productController.applyDiscount);
 app.put('/update/product/:productId', productController.updatedProduct)
 app.delete('/delete/product/:productId', productController.deleteProduct)
+
+app.post('/create/member', memberController.createMember)
+app.get('/members', memberController.getMembers)
 
 
 
