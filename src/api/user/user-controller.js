@@ -58,7 +58,7 @@ const updateRole = async (req, res) => {
 const deleteUser = async (req, res) => {
     const {userId} = req.params
     try {
-        const user = await userService.deleteUser(parseInt(userId))
+        const user = await userService.deleteUser(userId)
         res.status(201).json({
             message: "User deleted",
             data: user

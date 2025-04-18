@@ -35,7 +35,6 @@ const verifyRole = (requiredRole) => {
     };
 };
 
-module.exports = verifyRole;
 
 module.exports = {
     verifyRole,
